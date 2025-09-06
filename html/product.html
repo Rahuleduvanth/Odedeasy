@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Details | Eco-Find</title>
+  <link rel="stylesheet" href="../css/choco-home.css" />
+  <style>
+    .product-details {
+      max-width: 450px;
+      margin: 60px auto;
+      padding: 32px 24px;
+      background: #493224;
+      border-radius: 16px;
+      color: #f3e7dd;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .product-details img {
+      width: 180px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 18px;
+      background: #fff;
+    }
+    .product-desc {
+      color: #ad7b59;
+      font-weight: 500;
+      margin-top: 16px;
+      font-size: 1.07em;
+    }
+    .back-btn {
+      margin-top: 25px;
+      background: #ad7b59;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background: #fff;
+      color: #ad7b59;
+    }
+    .loading {
+      color: #fff;
+      text-align: center;
+      margin-top: 100px;
+      font-size: 1.3em;
+    }
+  </style>
+</head>
+<body>
+  <div class="product-details" id="product-details" style="display:none;">
+    <img id="prod-img" src="" alt="Product Image" />
+    <h2 id="prod-title"></h2>
+    <div id="prod-price" style="font-size:1.2em;font-weight:bold;margin:8px 0;"></div>
+    <div class="product-desc" id="prod-desc"></div>
+    <button class="back-btn" onclick="window.history.back()">Go Back</button>
+  </div>
+  <div class="loading" id="loading-text">Loading product details...</div>
+
+  <script>
+    async function loadProduct() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id'); // product ID passed as URL parameter
+
+      if (!id) {
+        document.getElementById('loading-text').textContent = 'No product selected.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) throw new Error('Product not found');
+        const product = await res.json();
+
+        document.getElementById('prod-title').textContent = product.name;
+        document.getElementById('prod-price').textContent = `₹ ${product.price.toLocaleString('en-IN')}`;
+        document.getElementById('prod-desc').textContent = product.description || "No description available.";
+        document.getElementById('prod-img').src = product.image || "https://via.placeholder.com/180x120?text=No+Image";
+        document.getElementById('prod-img').alt = product.name;
+
+        document.getElementById('loading-text').style.display = 'none';
+        document.getElementById('product-details').style.display = 'block';
+      } catch (error) {
+        document.getElementById('loading-text').textContent = 'Failed to load product details.';
+      }
+    }
+    loadProduct();
+  </script>
+</body>
+</html>
