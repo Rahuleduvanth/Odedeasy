@@ -1,0 +1,35 @@
+name: ecofinds_project
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/fonts/
+
+  fonts:
+    - family: Grand Hotel
+      fonts:
+        - asset: assets/fonts/GrandHotel-Regular.ttf
+    - family: Grandstander
+      fonts:
+        - asset: assets/fonts/Grandstander-VariableFont_wght.ttf
+    - family: Sen
+      fonts:
+        - asset: assets/fonts/Sen-Regular.ttf
